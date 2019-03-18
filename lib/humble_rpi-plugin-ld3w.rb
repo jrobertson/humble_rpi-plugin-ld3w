@@ -7,7 +7,6 @@
 require 'ld3w'
 
 
-
 class HumbleRPiPluginLd3W
   using ColouredText
 
@@ -23,31 +22,28 @@ class HumbleRPiPluginLd3W
     
   end
   
-  def start()
-          
-    while true do
+  def start()          
         
-      begin
-        
-        loc = @ld3w.locate        
-        puts ('loc: ' + loc.inspect).debug if @debug
-        located = loc.is_a?(Array) ? loc.last : loc
-        @notifier.notice "%s/gps: lat: %s lon: %s" % 
-                              [@device_id,  located.latitude, located.longitude]
+    begin
       
-      rescue
-        
-        @notifier.notice "%s/gps/warning: %s" % [@device_id, 
-                                                 'unable to connect']
-        `service bluetooth restart`
-        sleep 6
-        retry
-        
-      end 
+      loc = @ld3w.locate        
+      puts ('loc: ' + loc.inspect).debug if @debug
+      located = loc.is_a?(Array) ? loc.last : loc
+      @notifier.notice "%s/gps: lat: %s lon: %s" % 
+                            [@device_id,  located.latitude, located.longitude]
+      sleep(@h[:refresh_rate])                                    
+    rescue
       
-      sleep(@h[:refresh_rate])                              
-    end
+      @notifier.notice "%s/gps/warning: %s" % [@device_id, 
+                                                'unable to connect']
+      `service bluetooth restart`
+      sleep 6
+      
+    end 
     
+
+    start()
+  
   end
   
   alias on_start start  

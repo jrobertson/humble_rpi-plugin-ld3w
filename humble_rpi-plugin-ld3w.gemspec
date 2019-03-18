@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'humble_rpi-plugin-ld3w'
-  s.version = '0.2.0'
+  s.version = '0.2.1'
   s.summary = 'Intended for using a Nokia LD-3W with a Raspberry Pi ' + 
       'from the Humble_RPi gem'
   s.authors = ['James Robertson']
